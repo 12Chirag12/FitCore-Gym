@@ -41,34 +41,39 @@
 
 <body>
 
-    <!-- ===========================
-     HEADER / NAVBAR
-=========================== -->
+    <!-- ================= HEADER ================= -->
 <header>
-    <nav class="navbar navbar-expand-lg fixed-top custom-navbar">
+
+    <nav class="navbar navbar-expand-lg custom-navbar fixed-top">
+
         <div class="container">
 
             <!-- Logo -->
-            <a class="navbar-brand logo" href="#">
+            <a class="navbar-brand logo" href="#home">
+
                 FIT<span>CORE</span>
+
             </a>
 
             <!-- Mobile Toggle -->
-            <button class="navbar-toggler border-0 shadow-none" type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#navbarMenu">
+
+            <button class="navbar-toggler border-0 shadow-none"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarMenu">
 
                 <i class="fa-solid fa-bars"></i>
 
             </button>
 
             <!-- Navigation -->
+
             <div class="collapse navbar-collapse" id="navbarMenu">
 
                 <ul class="navbar-nav mx-auto">
 
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">Home</a>
+                        <a class="nav-link active" href="#home">Home</a>
                     </li>
 
                     <li class="nav-item">
@@ -84,10 +89,6 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#trainers">Trainers</a>
-                    </li>
-
-                    <li class="nav-item">
                         <a class="nav-link" href="#gallery">Gallery</a>
                     </li>
 
@@ -97,56 +98,97 @@
 
                 </ul>
 
-                <a href="#contact" class="btn join-btn">
-                    Join Now
+                <a href="#contact" class="btn btn-get-started">
+
+                    Get Started
+
                 </a>
 
             </div>
 
         </div>
+
     </nav>
+
 </header>
 
-<<!-- ===========================
-     HERO SECTION
-=========================== -->
-<section class="hero">
-
-    <div class="hero-overlay"></div>
+<!-- =====================================
+     HERO SECTION START
+====================================== -->
+<section id="home" class="hero">
 
     <div class="container">
 
-        <div class="hero-content">
+        <div class="row align-items-center min-vh-100">
 
-            <span class="hero-tag">
-                💪 Welcome to FitCore Gym
-            </span>
+            <!-- LEFT CONTENT -->
+            <div class="col-lg-6">
 
-            <h1>
+                <div class="hero-content">
 
-                PUSH YOUR LIMITS
-                <br>
-                BUILD YOUR BEST SELF
+                    <span class="hero-badge">
+                        💪 Premium Fitness Experience
+                    </span>
 
-            </h1>
+                    <h1>
+                        TRANSFORM YOUR BODY
+                        <br>
+                        TRANSFORM YOUR LIFE
+                    </h1>
 
-            <p>
+                    <p>
+                        Train with premium Jerai Fitness equipment, certified
+                        trainers and personalized workout plans designed to
+                        help you achieve your fitness goals.
+                    </p>
 
-                Experience premium fitness with world-class equipment,
-                certified trainers, personalized workout plans,
-                and a motivating environment.
+                    <ul class="hero-features">
 
-            </p>
+                        <li><i class="fa-solid fa-circle-check"></i> 100+ Jerai Fitness Equipment</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Certified Trainers</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Personalized Workout Plans</li>
+                        <li><i class="fa-solid fa-circle-check"></i> Modern & Hygienic Environment</li>
 
-            <div class="hero-buttons">
+                    </ul>
 
-                <a href="#membership" class="btn btn-primary-custom">
-                    Start Your Journey
-                </a>
+                    <div class="hero-buttons">
 
-                <a href="#programs" class="btn btn-outline-custom">
-                    Explore Programs
-                </a>
+                        <a href="#membership" class="btn btn-main">
+                            Start Today
+                        </a>
+
+                        <a href="#programs" class="btn btn-outline-light">
+                            Explore Programs
+                        </a>
+
+                    </div>
+
+                    <div class="hero-rating">
+
+                        <span class="stars">★★★★★</span>
+
+                        <span class="rating-text">
+                            Trusted by 500+ Members
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- RIGHT IMAGE -->
+
+            <div class="col-lg-6">
+
+                <div class="hero-image">
+
+                    <img
+                        src="images/hero/hero-main.jpg"
+                        alt="Premium Gym"
+                        class="img-fluid">
+
+                </div>
 
             </div>
 
@@ -155,24 +197,16 @@
     </div>
 
 </section>
+<!-- =====================================
+     HERO SECTION END
+====================================== -->
 
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
 
-
-    <!-- Hero Section Starts Here -->
-
-
-
-    <!-- Hero Section Ends Here -->
-
-
-
-    <!-- Bootstrap JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Custom JavaScript -->
-    <script src="js/script.js"></script>
-    <script src="js/navbar.js"></script>
-
+<!-- Custom JS -->
+<script src="js/script.js"></script>
+<script src="js/navbar.js"></script>
 </body>
 
 </html>

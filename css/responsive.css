@@ -25,31 +25,22 @@
 @media (max-width:576px) {
 
 }
-/* ===========================
-   HERO RESPONSIVE
-=========================== */
+/*=========================================
+            HERO RESPONSIVE
+=========================================*/
 
-@media(max-width:992px){
-
-.hero h1{
-
-font-size:3rem;
-
-}
-
-}
-
-@media(max-width:768px){
+@media (max-width:992px){
 
 .hero{
 
 text-align:center;
+padding-top:140px;
 
 }
 
-.hero-content{
+.hero-content h1{
 
-margin:auto;
+font-size:3rem;
 
 }
 
@@ -59,15 +50,51 @@ justify-content:center;
 
 }
 
-.hero h1{
+.hero-image{
 
-font-size:2.3rem;
+margin-top:60px;
 
 }
 
-.hero p{
+.hero-image img{
+
+max-width:450px;
+
+}
+
+}
+
+@media (max-width:768px){
+
+.hero-content h1{
+
+font-size:2.2rem;
+
+}
+
+.hero-content p{
 
 font-size:16px;
+line-height:28px;
+
+}
+
+.hero-buttons{
+
+flex-direction:column;
+align-items:center;
+
+}
+
+.hero-buttons .btn{
+
+width:260px;
+
+}
+
+.hero-image img{
+
+max-width:100%;
 
 }
 

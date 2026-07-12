@@ -1,47 +1,85 @@
-/* ===========================
-   NAVBAR
-=========================== */
+/*=============================
+        NAVBAR
+==============================*/
 
 .custom-navbar{
-    background: rgba(17,17,17,.92);
-    backdrop-filter: blur(10px);
+
     padding:18px 0;
-    transition:.3s ease;
+
+    background:transparent;
+
+    transition:.4s ease;
+
 }
 
+.custom-navbar.scrolled{
+
+    background:rgba(15,15,15,.95);
+
+    backdrop-filter:blur(12px);
+
+    box-shadow:0 10px 25px rgba(0,0,0,.35);
+
+}
+
+/* Logo */
+
 .logo{
+
     font-size:2rem;
+
     font-weight:800;
-    color:var(--white)!important;
+
+    color:white !important;
+
     letter-spacing:1px;
+
 }
 
 .logo span{
-    color:var(--accent-color);
+
+    color:#E11D48;
+
 }
+
+/* Menu */
 
 .navbar-nav .nav-link{
-    color:var(--white);
+
+    color:white;
+
+    margin:0 15px;
+
     font-weight:500;
-    margin:0 12px;
+
     position:relative;
+
     transition:.3s;
+
 }
 
-.navbar-nav .nav-link:hover,
-.navbar-nav .nav-link.active{
-    color:var(--accent-color);
+.navbar-nav .nav-link:hover{
+
+    color:#E11D48;
+
 }
 
 .navbar-nav .nav-link::after{
 
-    content:'';
+    content:"";
+
     position:absolute;
+
     left:0;
-    bottom:-5px;
+
+    bottom:-6px;
+
     width:0;
+
     height:2px;
-    background:var(--accent-color);
+
+    background:#E11D48;
+
     transition:.3s;
 
 }
@@ -52,34 +90,46 @@
 
 }
 
-.join-btn{
+/* Button */
 
-    background:var(--accent-color);
-    color:var(--white);
+.btn-get-started{
+
+    background:#E11D48;
+
+    color:white;
+
     padding:12px 28px;
+
     border-radius:50px;
+
     font-weight:600;
+
     transition:.3s;
 
 }
 
-.join-btn:hover{
+.btn-get-started:hover{
 
-    background:var(--accent-hover);
-    color:var(--white);
-    transform:translateY(-2px);
+    background:#BE123C;
+
+    color:white;
+
+    transform:translateY(-3px);
 
 }
 
+/* Mobile */
+
 .navbar-toggler{
 
-    color:var(--white);
+    color:white;
 
 }
 
 .navbar-toggler i{
 
-    color:var(--white);
-    font-size:1.5rem;
+    font-size:28px;
+
+    color:white;
 
 }

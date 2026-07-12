@@ -1,143 +1,93 @@
-/* ===================================
-   HERO SECTION
-=================================== */
+/*=========================================
+                HERO
+=========================================*/
 
-.hero {
-
-    position: relative;
-    height: 100vh;
-
-    background: url("../../images/hero/hero.jpg");
-
-    background-size: cover;
-    background-position: center;
-
-    display: flex;
-    align-items: center;
-
+.hero{
+    background:#0F0F0F;
+    color:#fff;
+    padding-top:100px;
+    overflow:hidden;
 }
 
-.hero-overlay {
-
-    position: absolute;
-
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-
-    background: rgba(0,0,0,.65);
-
-}
-
-.hero-content{
-
-    position: relative;
-    z-index: 2;
-
-    max-width:700px;
-
-}
-
-.hero-tag{
-
-    display:inline-block;
-
-    background:#dc2626;
-
-    color:white;
-
-    padding:10px 20px;
-
-    border-radius:30px;
-
-    margin-bottom:25px;
-
-    font-weight:600;
-
-}
-
-.hero h1{
-
+.hero-content h1{
     font-size:4rem;
-
     font-weight:800;
-
-    line-height:1.2;
-
-    margin-bottom:25px;
-
+    line-height:1.1;
+    margin:25px 0;
 }
 
-.hero p{
-
-    color:#d1d5db;
-
+.hero-content p{
+    color:#9CA3AF;
     font-size:18px;
-
     line-height:32px;
+    margin-bottom:30px;
+}
 
-    margin-bottom:35px;
+.hero-badge{
+    display:inline-block;
+    background:#E11D48;
+    padding:10px 20px;
+    border-radius:30px;
+    font-weight:600;
+}
 
+.hero-features{
+    list-style:none;
+    padding:0;
+    margin:0 0 35px;
+}
+
+.hero-features li{
+    margin-bottom:14px;
+    font-size:17px;
+}
+
+.hero-features i{
+    color:#E11D48;
+    margin-right:10px;
 }
 
 .hero-buttons{
-
     display:flex;
-
     gap:20px;
-
-    flex-wrap:wrap;
-
+    margin-bottom:30px;
 }
 
-.btn-primary-custom{
-
-    background:#dc2626;
-
-    color:white;
-
-    padding:15px 35px;
-
+.btn-main{
+    background:#E11D48;
+    color:#fff;
+    padding:14px 34px;
     border-radius:50px;
-
     font-weight:600;
-
-    transition:.3s;
-
 }
 
-.btn-primary-custom:hover{
-
-    background:#b91c1c;
-
-    color:white;
-
-    transform:translateY(-4px);
-
+.btn-main:hover{
+    background:#BE123C;
+    color:#fff;
 }
 
-.btn-outline-custom{
-
-    border:2px solid white;
-
-    color:white;
-
-    padding:15px 35px;
-
-    border-radius:50px;
-
-    font-weight:600;
-
-    transition:.3s;
-
+.hero-rating{
+    margin-top:15px;
 }
 
-.btn-outline-custom:hover{
+.stars{
+    color:#FFD43B;
+    font-size:22px;
+}
 
-    background:white;
+.rating-text{
+    margin-left:12px;
+    color:#D1D5DB;
+}
 
-    color:#111;
+.hero-image{
+    display:flex;
+    justify-content:center;
+}
 
+.hero-image img{
+    width:100%;
+    max-width:520px;
+    border-radius:25px;
+    box-shadow:0 30px 60px rgba(0,0,0,.45);
 }

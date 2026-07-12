@@ -3,10 +3,27 @@
 =========================================*/
 
 .hero{
-    background:#0F0F0F;
+
+    min-height:100vh;
+
+    display:flex;
+    align-items:center;
+
+    background:
+    linear-gradient(
+        rgba(0,0,0,.45),
+        rgba(0,0,0,.65)
+    ),
+    url("../static/images/hero/hero-main.jpg");
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+
     color:#fff;
-    padding-top:100px;
+
     overflow:hidden;
+
 }
 
 .hero-content h1{

@@ -1,0 +1,59 @@
+/*=========================================
+            PROGRAMS
+=========================================*/
+
+.programs{
+    background:#0F0F0F;
+    padding:100px 0;
+}
+
+.program-card{
+    background:#1A1A1A;
+    border-radius:20px;
+    overflow:hidden;
+    transition:.3s;
+    height:100%;
+}
+
+.program-card:hover{
+    transform:translateY(-10px);
+    box-shadow:0 20px 40px rgba(0,0,0,.4);
+}
+
+
+.program-card img{
+    width:100%;
+    height:260px;
+    object-fit:cover;
+    object-position:center;
+    display:block;
+}
+
+.program-content{
+    padding:25px;
+}
+
+.program-content h4{
+    color:#fff;
+    margin-bottom:15px;
+}
+
+.program-content p{
+    color:#BDBDBD;
+    margin-bottom:20px;
+}
+
+.program-content a{
+    color:#E11D48;
+    text-decoration:none;
+    font-weight:600;
+}
+
+.program-content a i{
+    margin-left:6px;
+    transition:.3s;
+}
+
+.program-content a:hover i{
+    margin-left:12px;
+}

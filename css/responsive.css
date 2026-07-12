@@ -99,3 +99,112 @@ max-width:100%;
 }
 
 }
+/*=========================================
+        STATISTICS RESPONSIVE
+=========================================*/
+
+@media (max-width:768px){
+
+.stat-card{
+
+padding:30px 20px;
+
+}
+
+.stat-card h2{
+
+font-size:34px;
+
+}
+
+}
+/* ABOUT */
+
+@media(max-width:992px){
+
+.about{
+
+text-align:center;
+
+}
+
+.about-image{
+
+margin-bottom:50px;
+
+}
+
+.about-content h2{
+
+font-size:34px;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.about{
+
+padding:70px 0;
+
+}
+
+.about-content h2{
+
+font-size:28px;
+
+}
+
+}
+/* WHY CHOOSE US */
+
+@media (max-width:768px){
+
+.section-heading h2{
+    font-size:30px;
+}
+
+.feature-card{
+    padding:30px 20px;
+}
+
+}
+/* PROGRAMS */
+
+@media (max-width:768px){
+
+.program-card img{
+    height:200px;
+}
+
+}
+/*=========================================
+        MEMBERSHIP RESPONSIVE
+=========================================*/
+
+@media(max-width:992px){
+
+.popular{
+
+transform:none;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.membership-card{
+
+margin-bottom:25px;
+
+}
+
+.price{
+
+font-size:40px;
+
+}
+
+}

@@ -46,7 +46,7 @@
 
 .navbar-nav .nav-link{
 
-    color:white;
+    color:#FFFFFF !important;
 
     margin:0 15px;
 
@@ -61,6 +61,17 @@
 .navbar-nav .nav-link:hover{
 
     color:#E11D48;
+
+}
+.navbar-nav .nav-link.active{
+
+    color:#E11D48 !important;
+
+}
+
+.navbar-nav .nav-link.active::after{
+
+    width:100%;
 
 }
 

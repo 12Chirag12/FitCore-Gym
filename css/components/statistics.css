@@ -1,0 +1,67 @@
+/*=========================================
+            STATISTICS
+=========================================*/
+
+.statistics{
+
+    background:#111111;
+
+    padding:80px 0;
+
+}
+
+.stat-card{
+
+    background:#1A1A1A;
+
+    border-radius:18px;
+
+    padding:40px 20px;
+
+    text-align:center;
+
+    transition:.4s;
+
+    border-top:4px solid #E11D48;
+
+    height:100%;
+
+}
+
+.stat-card:hover{
+
+    transform:translateY(-10px);
+
+    box-shadow:0 20px 40px rgba(0,0,0,.4);
+
+}
+
+.stat-card i{
+
+    font-size:42px;
+
+    color:#E11D48;
+
+    margin-bottom:20px;
+
+}
+
+.stat-card h2{
+
+    color:white;
+
+    font-size:42px;
+
+    font-weight:700;
+
+}
+
+.stat-card p{
+
+    color:#BDBDBD;
+
+    margin-top:10px;
+
+    margin-bottom:0;
+
+}

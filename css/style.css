@@ -1,3 +1,14 @@
+@import url("components/navbar.css");
+@import url("components/hero.css");
+@import url("components/statistics.css");
+@import url("components/about.css");
+@import url("components/why-us.css");
+@import url("components/programs.css");
+@import url("components/membership.css");
+@import url("components/trainers.css");
+@import url("components/gallery.css");
+@import url("components/contact.css");
+@import url("components/footer.css");
 /* ==========================================
    GOOGLE FONT
 ========================================== */

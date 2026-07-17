@@ -1,0 +1,95 @@
+/*=========================================
+            CSS RESET
+=========================================*/
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    font-family:'Poppins',sans-serif;
+
+    background:var(--primary-bg);
+
+    color:var(--white);
+
+    overflow-x:hidden;
+
+    line-height:1.6;
+
+    -webkit-font-smoothing:antialiased;
+
+    text-rendering:optimizeLegibility;
+
+}
+
+img{
+
+    max-width:100%;
+
+    display:block;
+
+}
+
+a{
+
+    text-decoration:none;
+
+    color:inherit;
+
+}
+
+ul{
+
+    list-style:none;
+
+}
+
+button{
+
+    border:none;
+
+    outline:none;
+
+    cursor:pointer;
+
+    background:none;
+
+    font-family:inherit;
+
+}
+
+input,
+textarea,
+select{
+
+    font-family:inherit;
+
+    outline:none;
+
+    border:none;
+
+}
+
+section{
+
+    padding:var(--section-padding) 0;
+
+}
+
+.container{
+
+    max-width:var(--container);
+
+    margin:auto;
+
+    padding:0 20px;
+
+}

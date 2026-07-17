@@ -1,0 +1,99 @@
+/*=========================================
+            TYPOGRAPHY
+=========================================*/
+
+/* Main Heading */
+
+h1{
+
+    font-size:clamp(2.8rem,6vw,4.5rem);
+
+    font-weight:800;
+
+    line-height:1.1;
+
+    letter-spacing:-1px;
+
+}
+
+/* Section Heading */
+
+h2{
+
+    font-size:clamp(2rem,4vw,3rem);
+
+    font-weight:700;
+
+    margin-bottom:20px;
+
+    line-height:1.2;
+
+}
+
+/* Card Heading */
+
+h3{
+
+    font-size:1.5rem;
+
+    font-weight:600;
+
+}
+
+/* Paragraph */
+
+p{
+
+    font-size:1rem;
+
+    color:var(--gray);
+
+    line-height:1.8;
+
+}
+
+/* Small Text */
+
+small{
+
+    color:var(--gray);
+
+}
+
+/* Section Subtitle */
+
+.section-subtitle{
+
+    display:inline-block;
+
+    color:var(--primary);
+
+    font-size:.9rem;
+
+    font-weight:600;
+
+    text-transform:uppercase;
+
+    letter-spacing:2px;
+
+    margin-bottom:15px;
+
+}
+
+/* Section Title */
+
+.section-title{
+
+    margin-bottom:20px;
+
+}
+
+/* Section Description */
+
+.section-description{
+
+    max-width:650px;
+
+    margin:auto;
+
+}

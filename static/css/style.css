@@ -1,3 +1,17 @@
+/*=========================================
+            BASE
+=========================================*/
+
+@import url("base/variables.css");
+@import url("base/reset.css");
+@import url("base/typography.css");
+@import url("base/utilities.css");
+@import url("base/animations.css");
+
+/*=========================================
+            COMPONENTS
+=========================================*/
+
 @import url("components/navbar.css");
 @import url("components/hero.css");
 @import url("components/statistics.css");

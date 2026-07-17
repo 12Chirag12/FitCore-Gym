@@ -34,7 +34,7 @@
 .hero{
 
 text-align:center;
-padding-top:140px;
+padding-top:120px;
 
 }
 
@@ -69,6 +69,7 @@ max-width:450px;
 .hero-content h1{
 
 font-size:2.2rem;
+margin-top:10px;
 
 }
 
@@ -206,5 +207,78 @@ margin-bottom:25px;
 font-size:40px;
 
 }
+
+}
+/*=========================================
+        HERO MOBILE
+=========================================*/
+
+@media (max-width:768px){
+
+    .hero{
+
+        padding:120px 0 60px;
+        min-height:auto;
+        text-align:center;
+
+    }
+
+    .hero-content{
+        margin:0 auto;
+    }
+
+    .hero-content h1{
+
+        font-size:2.8rem !important;
+        line-height:1.1;
+        margin-bottom:20px;
+
+    }
+
+    .hero-content p{
+
+        font-size:16px;
+        line-height:28px;
+        max-width:100%;
+        margin:20px auto;
+
+    }
+
+    .hero-buttons{
+
+        flex-direction:column;
+        align-items:center;
+        gap:15px;
+
+    }
+
+    .hero-buttons .btn{
+
+        width:260px;
+
+    }
+
+    .hero-image{
+
+        margin-top:50px;
+
+    }
+
+    .hero-image img{
+
+        max-width:100%;
+
+    }
+
+}
+
+@media (max-width:480px){
+
+    .hero-content h1{
+
+        font-size:2.2rem !important;
+        line-height:1.15;
+
+    }
 
 }

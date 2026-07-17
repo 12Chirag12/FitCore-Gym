@@ -13,7 +13,7 @@
     <title>FitCore Gym</title>
 
     <!-- Website Icon -->
-    <link rel="icon" href="images/logo/favicon.png">
+    <link rel="icon" href="{{ url_for('static', filename='images/logo/favicon.png') }}">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -27,15 +27,6 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/responsive.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/navbar.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/hero.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/about.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/programs.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/membership.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/trainers.css') }}">
-    
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/contact.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/components/footer.css') }}">
 
 </head>
 
@@ -47,14 +38,25 @@
 
     <nav class="navbar navbar-expand-lg custom-navbar fixed-top">
 
-        <div class="container">
+    <div class="container">
 
-            <!-- Logo -->
-            <a class="navbar-brand logo" href="#home">
+        <a class="navbar-brand logo" href="#home">
 
-                FIT<span>CORE</span>
+            <!-- <img src="{{ url_for('static', filename='images/logo/logo-img.png') }}"
+                 alt="FitCore Logo"
+                 class="logo-img"> -->
 
-            </a>
+            <div class="logo-text">
+
+                <span>
+                    <span class="fit">FIT</span><span class="core">CORE</span>
+                </span>
+
+                <small>Fitness Club</small>
+
+            </div>
+
+        </a>
 
             <!-- Mobile Toggle -->
 
@@ -114,7 +116,7 @@
 </header>
 
 <!-- =====================================
-     HERO SECTION START
+        HERO SECTION START
 ====================================== -->
 <section id="home" class="hero">
 
@@ -127,32 +129,63 @@
 
                 <div class="hero-content">
 
-                    <span class="hero-badge">
+                    <!-- Badge -->
+                    <span class="hero-badge fade-up">
                         💪 Premium Fitness Experience
                     </span>
 
-                    <h1>
-                        TRANSFORM  BODY
+                    <!-- Heading -->
+                    <h1 class="fade-up delay-1">
+
+                        Transform Your
+
+                        <span class="text-accent" style="color: #E11D48;">Body</span> 
+                        
+
                         <br>
-                        TRANSFORM  LIFE
+
+                        Transform Your
+                        <span class="text-accent" style="color: #E11D48;">Life</span>
+
                     </h1>
 
-                    <p>
-                        Train with premium Jerai Fitness equipment, certified
-                        trainers and personalized workout plans designed to
-                        help you achieve your fitness goals.
+                    <!-- Description -->
+                    <p class="fade-up delay-2">
+
+                        Train with premium Jerai Fitness equipment,
+                        certified trainers and personalized workout
+                        plans designed to help you achieve your
+                        fitness goals.
+
                     </p>
 
-                    <ul class="hero-features">
+                    <!-- Features -->
+                    <ul class="hero-features fade-up delay-3">
 
-                        <li><i class="fa-solid fa-circle-check"></i> 100+ Jerai Fitness Equipment</li>
-                        <li><i class="fa-solid fa-circle-check"></i> Certified Trainers</li>
-                        <li><i class="fa-solid fa-circle-check"></i> Personalized Workout Plans</li>
-                        <li><i class="fa-solid fa-circle-check"></i> Modern & Hygienic Environment</li>
+                        <li>
+                            <i class="fa-solid fa-circle-check"></i>
+                            100+ Jerai Fitness Equipment
+                        </li>
+
+                        <li>
+                            <i class="fa-solid fa-circle-check"></i>
+                            Certified Trainers
+                        </li>
+
+                        <li>
+                            <i class="fa-solid fa-circle-check"></i>
+                            Personalized Workout Plans
+                        </li>
+
+                        <li>
+                            <i class="fa-solid fa-circle-check"></i>
+                            Modern & Hygienic Environment
+                        </li>
 
                     </ul>
 
-                    <div class="hero-buttons">
+                    <!-- Buttons -->
+                    <div class="hero-buttons fade-up delay-4">
 
                         <a href="#membership" class="btn btn-main">
                             Start Today
@@ -164,9 +197,12 @@
 
                     </div>
 
+                    <!-- Rating -->
                     <div class="hero-rating">
 
-                        <span class="stars">★★★★★</span>
+                        <span class="stars">
+                            ★★★★★
+                        </span>
 
                         <span class="rating-text">
                             Trusted by 500+ Members
@@ -179,15 +215,14 @@
             </div>
 
             <!-- RIGHT IMAGE -->
-
             <div class="col-lg-6">
 
-                <div class="hero-image">
+                <div class="hero-image fade-up delay-2">
 
-                    
-                        <img src="{{ url_for('static', filename='images/hero/hero-main.jpg') }}"
-                        alt="Premium Gym"       
-                        class="img-fluid">  
+                    <img
+                        src="{{ url_for('static', filename='images/hero/hero-main.jpg') }}"
+                        alt="Premium Gym"
+                        class="img-fluid">
 
                 </div>
 
@@ -199,7 +234,7 @@
 
 </section>
 <!-- =====================================
-     HERO SECTION END
+        HERO SECTION END
 ====================================== -->
 <!-- =====================================
      STATISTICS SECTION START

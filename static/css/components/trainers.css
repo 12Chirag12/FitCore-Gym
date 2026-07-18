@@ -1,0 +1,217 @@
+/*=========================================
+            TRAINERS PAGE
+=========================================*/
+
+.trainer-page-header {
+    padding: 24px 0;
+    background: rgba(17, 17, 17, 0.95);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.back-link {
+    color: #fff;
+    font-weight: 600;
+    padding: 10px 16px;
+    border-radius: 999px;
+    transition: 0.3s;
+}
+
+.back-link:hover {
+    color: #fff;
+    background: rgba(225, 29, 72, 0.15);
+}
+
+.trainer-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 13px 22px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #E11D48 0%, #F43F5E 100%);
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    box-shadow: 0 12px 30px rgba(225, 29, 72, 0.28);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.trainer-cta-btn:hover {
+    transform: translateY(-2px);
+    color: #fff;
+    box-shadow: 0 16px 35px rgba(225, 29, 72, 0.38);
+}
+
+.trainer-cta-btn i {
+    margin-right: 8px;
+}
+
+.trainer-hero {
+    padding: 100px 0 80px;
+    background: linear-gradient(135deg, #111111 0%, #1a1a1a 100%);
+}
+
+.trainer-hero h1 {
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 700;
+    margin: 20px 0;
+    color: #fff;
+}
+
+.trainer-hero p {
+    color: #d1d5db;
+    max-width: 650px;
+    line-height: 1.8;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 28px;
+}
+
+.trainer-hero-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 28px;
+}
+
+.trainer-hero-card h3 {
+    color: #fff;
+    margin-bottom: 16px;
+}
+
+.trainer-hero-card ul li {
+    margin-bottom: 12px;
+    color: #f3f4f6;
+}
+
+.trainer-hero-card ul i {
+    color: #22C55E;
+    margin-right: 10px;
+}
+
+.trainer-diet-section,
+.trainer-showcase,
+.trainer-membership,
+.trainer-contact {
+    padding: 80px 0;
+    background: #111111;
+}
+
+.diet-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 30px 0 24px;
+}
+
+.diet-tab {
+    border: none;
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.diet-tab.active,
+.diet-tab:hover {
+    background: #E11D48;
+}
+
+.diet-panel {
+    display: none;
+}
+
+.diet-panel.active {
+    display: block;
+}
+
+.diet-card {
+    background: #1A1A1A;
+    border-radius: 20px;
+    padding: 28px;
+    height: 100%;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.diet-card.highlight {
+    border-color: #E11D48;
+}
+
+.diet-card h3 {
+    color: #fff;
+    margin-bottom: 12px;
+}
+
+.diet-card p,
+.diet-card li {
+    color: #d1d5db;
+    line-height: 1.8;
+}
+
+.diet-card ul {
+    padding-left: 18px;
+    margin-top: 14px;
+}
+
+.trainer-card {
+    background: #1A1A1A;
+    border-radius: 20px;
+    padding: 24px;
+    height: 100%;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.trainer-role {
+    color: #E11D48;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.membership-card {
+    background: #1A1A1A;
+    border-radius: 20px;
+    padding: 28px;
+    text-align: center;
+    position: relative;
+    height: 100%;
+    border: 1px solid rgba(255,255,255,0.08);
+}
+
+.membership-card.featured {
+    border-color: #E11D48;
+    transform: translateY(-6px);
+}
+
+.price {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #E11D48;
+    margin: 12px 0;
+}
+
+.member-card p {
+    color: #d1d5db;
+}
+
+.trainer-contact {
+    background: linear-gradient(135deg, #1A1A1A 0%, #111111 100%);
+}
+
+.trainer-contact h2 {
+    margin-bottom: 14px;
+}
+
+.trainer-contact p {
+    color: #d1d5db;
+    margin-bottom: 24px;
+}

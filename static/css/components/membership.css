@@ -33,6 +33,81 @@
     color:#E11D48;
     font-size:48px;
     font-weight:700;
+    margin-bottom:8px;
+}
+
+.price .original-price{
+    display:block;
+    text-decoration:none;
+}
+
+.price .discounted-price{
+    display:block;
+    font-size:30px;
+    color:#22C55E;
+    margin-top:6px;
+}
+
+.promo-box{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:14px;
+    padding:14px;
+    margin:0 auto 24px;
+    text-align:left;
+}
+
+.promo-label{
+    display:block;
+    color:#fff;
+    font-size:13px;
+    font-weight:600;
+    margin-bottom:8px;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+}
+
+.promo-input-group{
+    display:flex;
+    gap:10px;
+}
+
+.promo-input{
+    flex:1;
+    border:none;
+    border-radius:999px;
+    padding:10px 14px;
+    outline:none;
+    font-size:14px;
+}
+
+.promo-btn{
+    border:none;
+    border-radius:999px;
+    background:#E11D48;
+    color:#fff;
+    padding:10px 14px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.promo-btn:hover{
+    background:#BE123C;
+}
+
+.promo-message{
+    min-height:20px;
+    margin:10px 0 0;
+    font-size:13px;
+    color:#FDE68A;
+}
+
+.promo-message.success{
+    color:#86EFAC;
+}
+
+.promo-message.error{
+    color:#FCA5A5;
 }
 
 .duration{

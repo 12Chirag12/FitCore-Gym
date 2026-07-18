@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitCore Trainers | Expert Guidance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <header class="trainer-page-header">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <a href="/" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+                <a href="#contact" class="trainer-cta-btn">
+                    <span><i class="fa-solid fa-dumbbell"></i> Book a Trainer</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="trainer-hero">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-7">
+                    <span class="section-tag">EXPERT TRAINERS</span>
+                    <h1>Personalized diet and training for every goal</h1>
+                    <p>Our certified trainers create custom plans for weight gain, weight loss, strength building, and long-term fitness success.</p>
+                    <div class="hero-actions">
+                        <a href="#diet-plans" class="btn btn-main">Explore Diet Plans</a>
+                        <a href="#membership" class="btn btn-outline-light">View Trainer Membership</a>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="trainer-hero-card">
+                        <h3>Why choose our trainers?</h3>
+                        <ul>
+                            <li><i class="fa-solid fa-check"></i> Customized diet strategy</li>
+                            <li><i class="fa-solid fa-check"></i> Progress tracking every week</li>
+                            <li><i class="fa-solid fa-check"></i> Full support for weight loss and gain</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="diet-plans" class="trainer-diet-section">
+        <div class="container">
+            <div class="section-heading text-center">
+                <span class="section-tag">DIET PLANS</span>
+                <h2>Choose the plan that fits your body goal</h2>
+            </div>
+
+            <div class="diet-tabs">
+                <button class="diet-tab active" data-target="gain">Weight Gain</button>
+                <button class="diet-tab" data-target="loss">Weight Loss</button>
+            </div>
+
+            <div class="diet-panels">
+                <div class="diet-panel active" id="gain-panel">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="diet-card">
+                                <h3>Weight Gain Plan</h3>
+                                <p>Ideal for clients who want to build healthy mass with better recovery.</p>
+                                <ul>
+                                    <li>High-protein meals with daily calorie surplus</li>
+                                    <li>Strength-focused workouts 4 days per week</li>
+                                    <li>Supplement guidance and hydration support</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="diet-card highlight">
+                                <h3>Trainer Focus</h3>
+                                <p>Balanced bulking with lean muscle gains, not unhealthy fat.</p>
+                                <ul>
+                                    <li>Progress review every 7 days</li>
+                                    <li>Meal timing and post-workout nutrition</li>
+                                    <li>Weekly goal adjustments</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="diet-panel" id="loss-panel">
+                    <div class="row g-4">
+                        <div class="col-lg-6">
+                            <div class="diet-card">
+                                <h3>Weight Loss Plan</h3>
+                                <p>Perfect for clients aiming to reduce fat while preserving muscle.</p>
+                                <ul>
+                                    <li>Calorie-controlled nutrition with protein focus</li>
+                                    <li>Fat-burning cardio and functional training</li>
+                                    <li>Simple meal guidance for everyday success</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="diet-card highlight">
+                                <h3>Trainer Focus</h3>
+                                <p>Steady and sustainable fat loss with long-term habits.</p>
+                                <ul>
+                                    <li>Weekly body measurements and check-ins</li>
+                                    <li>Smart snack swaps and portion control</li>
+                                    <li>Motivation and accountability support</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="trainer-showcase">
+        <div class="container">
+            <div class="section-heading text-center">
+                <span class="section-tag">OUR COACHES</span>
+                <h2>Meet the experts behind your transformation</h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="trainer-card">
+                        <h3>Ravi Sharma</h3>
+                        <p class="trainer-role">Strength & Muscle Coach</p>
+                        <p>Specializes in mass gain and strength-focused programs for beginners and athletes.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="trainer-card">
+                        <h3>Meera Singh</h3>
+                        <p class="trainer-role">Fat Loss & Nutrition Coach</p>
+                        <p>Helps clients build healthy habits for steady weight loss and improved energy.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="trainer-card">
+                        <h3>Ashwin Verma</h3>
+                        <p class="trainer-role">Performance & Recovery Coach</p>
+                        <p>Focuses on mobility, recovery, and endurance for complete fitness growth.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="membership" class="trainer-membership">
+        <div class="container">
+            <div class="section-heading text-center">
+                <span class="section-tag">TRAINER MEMBERSHIP</span>
+                <h2>Affordable coaching support from ₹500 to ₹1000</h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="membership-card">
+                        <h3>Starter</h3>
+                        <div class="price">₹500</div>
+                        <p>Basic diet guidance and 2 check-ins monthly</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="membership-card featured">
+                        <span class="popular-badge">POPULAR</span>
+                        <h3>Pro</h3>
+                        <div class="price">₹800</div>
+                        <p>Weekly training support and customized meal structure</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="membership-card">
+                        <h3>Elite</h3>
+                        <div class="price">₹1000</div>
+                        <p>Full trainer support, diet planning, and progress review</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="trainer-contact">
+        <div class="container text-center">
+            <h2>Ready to start your transformation?</h2>
+            <p>Book your trainer today and get the right diet and workout plan for your goal.</p>
+            <a href="/" class="btn btn-main">Contact FitCore</a>
+        </div>
+    </section>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

@@ -29,6 +29,11 @@ def home():
     return render_template("index.html")
 
 
+@app.route("/trainers")
+def trainers():
+    return render_template("trainers.html")
+
+
 @app.route("/contact", methods=["POST"])
 def contact():
 

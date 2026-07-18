@@ -32,10 +32,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }).format(value);
 
         button.addEventListener("click", () => {
-            const code = input.value.trim();
+            const code = input.value.trim().toUpperCase();
 
             if (!code) {
                 message.textContent = "Please enter a promo code to continue.";
+                message.className = "promo-message error";
+                return;
+            }
+
+            if (code !== "FREE10") {
+                price.innerHTML = `<span class="original-price">${formatPrice(originalPrice)}</span>`;
+                message.textContent = "Invalid promo code.";
                 message.className = "promo-message error";
                 return;
             }

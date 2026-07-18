@@ -169,3 +169,52 @@
     font-size:13px;
     font-weight:600;
 }
+
+@media (max-width: 768px) {
+    .membership {
+        padding: 80px 0;
+    }
+
+    .membership-card {
+        padding: 28px 20px;
+    }
+
+    .membership-card h3 {
+        font-size: 24px;
+        margin-bottom: 14px;
+    }
+
+    .price {
+        font-size: 36px;
+    }
+
+    .promo-input-group {
+        flex-direction: column;
+    }
+
+    .promo-btn {
+        width: 100%;
+    }
+
+    .promo-box {
+        padding: 12px;
+    }
+
+    .membership-card ul li {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .membership-card {
+        padding: 24px 16px;
+    }
+
+    .price {
+        font-size: 32px;
+    }
+
+    .promo-box {
+        margin-bottom: 18px;
+    }
+}

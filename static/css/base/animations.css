@@ -99,13 +99,45 @@
 
     50%{
 
-        transform:scale(1.05);
+        transform:scale(1.04);
 
     }
 
     100%{
 
         transform:scale(1);
+
+    }
+
+}
+
+@keyframes floatOrb{
+
+    0%{
+
+        transform:translate3d(0,0,0) scale(1);
+
+    }
+
+    100%{
+
+        transform:translate3d(20px,-24px,0) scale(1.06);
+
+    }
+
+}
+
+@keyframes heroImageGlow{
+
+    0%,100%{
+
+        box-shadow:0 30px 70px rgba(0,0,0,.55);
+
+    }
+
+    50%{
+
+        box-shadow:0 35px 90px rgba(225,29,72,.24);
 
     }
 

@@ -15,14 +15,42 @@ app = Flask(__name__)
 app.secret_key = "fitcore_secret_key"
 
 # Email Configuration
-app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER", "smtp.gmail.com")
-app.config["MAIL_PORT"] = int(os.getenv("MAIL_PORT", 587))
-app.config["MAIL_USE_TLS"] = os.getenv("MAIL_USE_TLS", "True").lower() == "true"
-app.config["MAIL_USERNAME"] = os.getenv("EMAIL_USER") or "info@fitcoregym.com"
-app.config["MAIL_PASSWORD"] = os.getenv("EMAIL_PASS") or ""
-app.config["MAIL_DEFAULT_SENDER"] = app.config["MAIL_USERNAME"]
+app.config["MAIL_SERVER"] = "smtp.gmail.com"
+app.config["MAIL_PORT"] = 587
+app.config["MAIL_USE_TLS"] = True
+app.config["MAIL_USERNAME"] = "info@fitcoregym.com"
+app.config["MAIL_PASSWORD"] = ""
+app.config["MAIL_DEFAULT_SENDER"] = "info@fitcoregym.com"
 
 mail = Mail(app)
+
+
+def configure_mail_from_environment():
+    app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER", app.config.get("MAIL_SERVER", "smtp.gmail.com"))
+    app.config["MAIL_PORT"] = int(os.getenv("MAIL_PORT", app.config.get("MAIL_PORT", 587)))
+    app.config["MAIL_USE_TLS"] = (
+        os.getenv("MAIL_USE_TLS", str(app.config.get("MAIL_USE_TLS", True))).lower() == "true"
+    )
+    app.config["MAIL_USERNAME"] = (
+        os.getenv("MAIL_USERNAME")
+        or os.getenv("EMAIL_USER")
+        or app.config.get("MAIL_USERNAME", "info@fitcoregym.com")
+    )
+    app.config["MAIL_PASSWORD"] = (
+        os.getenv("MAIL_PASSWORD")
+        or os.getenv("EMAIL_PASS")
+        or app.config.get("MAIL_PASSWORD", "")
+    )
+    app.config["MAIL_DEFAULT_SENDER"] = app.config["MAIL_USERNAME"]
+
+
+configure_mail_from_environment()
+
+
+def email_configured():
+    username = app.config["MAIL_USERNAME"]
+    password = app.config["MAIL_PASSWORD"]
+    return bool(username and password)
 
 
 @app.route("/")
@@ -56,6 +84,8 @@ def contact():
     message = request.form.get("message")
     recipient = os.getenv("EMAIL_TO") or app.config["MAIL_USERNAME"]
 
+    configure_mail_from_environment()
+
     payload = {
         "name": name,
         "email": email,
@@ -83,7 +113,7 @@ Message:
 """
 
     try:
-        if os.getenv("EMAIL_USER") and os.getenv("EMAIL_PASS"):
+        if email_configured():
             mail.send(msg)
             flash("Message sent successfully!", "success")
         else:

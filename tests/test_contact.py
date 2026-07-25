@@ -1,21 +1,27 @@
 import os
 import tempfile
 import unittest
+from unittest.mock import patch
 
-from app import app
+import app as app_module
+from app import app as flask_app
 
 
 class ContactFlowTests(unittest.TestCase):
     def setUp(self):
-        app.config.update(TESTING=True)
-        self.client = app.test_client()
+        flask_app.config.update(TESTING=True)
+        self.client = flask_app.test_client()
         self.original_email_user = os.environ.get("EMAIL_USER")
         self.original_email_pass = os.environ.get("EMAIL_PASS")
         self.original_email_to = os.environ.get("EMAIL_TO")
+        self.original_mail_username = os.environ.get("MAIL_USERNAME")
+        self.original_mail_password = os.environ.get("MAIL_PASSWORD")
 
         os.environ.pop("EMAIL_USER", None)
         os.environ.pop("EMAIL_PASS", None)
         os.environ.pop("EMAIL_TO", None)
+        os.environ.pop("MAIL_USERNAME", None)
+        os.environ.pop("MAIL_PASSWORD", None)
 
         self.temp_dir = tempfile.mkdtemp(dir=os.getcwd())
         self.original_upload_dir = os.environ.get("CONTACT_SUBMISSIONS_FILE")
@@ -39,6 +45,16 @@ class ContactFlowTests(unittest.TestCase):
             os.environ.pop("EMAIL_TO", None)
         else:
             os.environ["EMAIL_TO"] = self.original_email_to
+
+        if self.original_mail_username is None:
+            os.environ.pop("MAIL_USERNAME", None)
+        else:
+            os.environ["MAIL_USERNAME"] = self.original_mail_username
+
+        if self.original_mail_password is None:
+            os.environ.pop("MAIL_PASSWORD", None)
+        else:
+            os.environ["MAIL_PASSWORD"] = self.original_mail_password
 
         if self.original_upload_dir is None:
             os.environ.pop("CONTACT_SUBMISSIONS_FILE", None)
@@ -72,6 +88,27 @@ class ContactFlowTests(unittest.TestCase):
             content = handle.read()
 
         self.assertIn("asha@example.com", content)
+
+    def test_contact_form_uses_render_email_environment_variables(self):
+        os.environ["MAIL_USERNAME"] = "info@fitcoregym.com"
+        os.environ["MAIL_PASSWORD"] = "secret-password"
+
+        with patch.object(app_module.mail, "send", return_value=None) as mock_send:
+            response = self.client.post(
+                "/contact",
+                data={
+                    "name": "Asha",
+                    "email": "asha@example.com",
+                    "subject": "Trial Request",
+                    "phone": "9876543210",
+                    "message": "I want to book a free trial.",
+                },
+                follow_redirects=True,
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("sent successfully", response.get_data(as_text=True).lower())
+        mock_send.assert_called_once()
 
 
 if __name__ == "__main__":

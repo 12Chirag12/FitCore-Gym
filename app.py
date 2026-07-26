@@ -71,40 +71,49 @@ def save_submission_locally(data):
 
 @app.route("/contact", methods=["POST"])
 def contact():
-    name = request.form.get("name")
-    email = request.form.get("email")
-    subject = request.form.get("subject")
-    phone = request.form.get("phone")
-    message = request.form.get("message")
-
-    configure_mail_from_environment()
-
     payload = {
-        "name": name,
-        "email": email,
-        "phone": phone or "Not provided",
-        "subject": subject,
-        "message": message,
+        "name": None,
+        "email": None,
+        "phone": "Not provided",
+        "subject": None,
+        "message": None,
     }
 
-    if not email_configured():
-        save_submission_locally(payload)
-        flash("Message saved locally. Configure email settings to receive it by email.", "info")
-        return redirect("/")
+    try:
+        name = request.form.get("name")
+        email = request.form.get("email")
+        subject = request.form.get("subject")
+        phone = request.form.get("phone")
+        message = request.form.get("message")
 
-    recipient = os.getenv("EMAIL_TO") or app.config.get("MAIL_USERNAME") or ""
-    if not recipient:
-        save_submission_locally(payload)
-        flash("Message saved locally. Configure email settings to receive it by email.", "info")
-        return redirect("/")
+        configure_mail_from_environment()
 
-    msg = Message(
-        subject=f"FitCore Contact: {subject}",
-        sender=app.config["MAIL_USERNAME"],
-        recipients=[recipient],
-    )
+        payload = {
+            "name": name,
+            "email": email,
+            "phone": phone or "Not provided",
+            "subject": subject,
+            "message": message,
+        }
 
-    msg.body = f"""
+        if not email_configured():
+            save_submission_locally(payload)
+            flash("Message saved locally. Configure email settings to receive it by email.", "info")
+            return redirect("/")
+
+        recipient = os.getenv("EMAIL_TO") or app.config.get("MAIL_USERNAME") or ""
+        if not recipient:
+            save_submission_locally(payload)
+            flash("Message saved locally. Configure email settings to receive it by email.", "info")
+            return redirect("/")
+
+        msg = Message(
+            subject=f"FitCore Contact: {subject}",
+            sender=app.config["MAIL_USERNAME"],
+            recipients=[recipient],
+        )
+
+        msg.body = f"""
 New Contact Form Submission
 
 Name: {name}
@@ -116,7 +125,6 @@ Message:
 {message}
 """
 
-    try:
         mail.send(msg)
         flash("Message sent successfully!", "success")
     except Exception as exc:

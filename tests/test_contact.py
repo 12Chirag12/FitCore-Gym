@@ -1,6 +1,8 @@
+import importlib
 import os
 import tempfile
 import unittest
+from pathlib import Path
 from unittest.mock import patch
 
 import app as app_module
@@ -109,6 +111,25 @@ class ContactFlowTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn("sent successfully", response.get_data(as_text=True).lower())
         mock_send.assert_called_once()
+
+    def test_app_loads_dotenv_from_project_root_even_when_cwd_changes(self):
+        original_cwd = os.getcwd()
+        temp_dir = tempfile.mkdtemp(dir=os.getcwd())
+        try:
+            os.chdir(temp_dir)
+            os.environ.pop("MAIL_USERNAME", None)
+            os.environ.pop("MAIL_PASSWORD", None)
+            os.environ.pop("EMAIL_USER", None)
+            os.environ.pop("EMAIL_PASS", None)
+
+            reloaded_app = importlib.reload(app_module)
+            self.assertTrue(reloaded_app.email_configured())
+            self.assertEqual(reloaded_app.app.config["MAIL_USERNAME"], os.getenv("EMAIL_USER") or os.getenv("MAIL_USERNAME"))
+        finally:
+            os.chdir(original_cwd)
+            for file_name in os.listdir(temp_dir):
+                os.remove(os.path.join(temp_dir, file_name))
+            os.rmdir(temp_dir)
 
 
 if __name__ == "__main__":

@@ -2,25 +2,22 @@ import json
 import os
 from datetime import datetime
 
-from flask import Flask, render_template, request, redirect, flash
-from flask_mail import Mail, Message
 from dotenv import load_dotenv
+from flask import Flask, flash, redirect, render_template, request
+from flask_mail import Mail, Message
 
-# Load .env file
-load_dotenv()
+project_root = os.path.dirname(os.path.abspath(__file__))
+load_dotenv(os.path.join(project_root, ".env"))
 
 app = Flask(__name__)
-
-# Secret key for flash messages
 app.secret_key = "fitcore_secret_key"
 
-# Email Configuration
-app.config["MAIL_SERVER"] = "smtp.gmail.com"
-app.config["MAIL_PORT"] = 587
-app.config["MAIL_USE_TLS"] = True
-app.config["MAIL_USERNAME"] = "info@fitcoregym.com"
-app.config["MAIL_PASSWORD"] = ""
-app.config["MAIL_DEFAULT_SENDER"] = "info@fitcoregym.com"
+app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER", "smtp.gmail.com")
+app.config["MAIL_PORT"] = int(os.getenv("MAIL_PORT", 587))
+app.config["MAIL_USE_TLS"] = os.getenv("MAIL_USE_TLS", "True").lower() == "true"
+app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME") or os.getenv("EMAIL_USER") or ""
+app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD") or os.getenv("EMAIL_PASS") or ""
+app.config["MAIL_DEFAULT_SENDER"] = app.config["MAIL_USERNAME"]
 
 mail = Mail(app)
 
@@ -28,19 +25,9 @@ mail = Mail(app)
 def configure_mail_from_environment():
     app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER", app.config.get("MAIL_SERVER", "smtp.gmail.com"))
     app.config["MAIL_PORT"] = int(os.getenv("MAIL_PORT", app.config.get("MAIL_PORT", 587)))
-    app.config["MAIL_USE_TLS"] = (
-        os.getenv("MAIL_USE_TLS", str(app.config.get("MAIL_USE_TLS", True))).lower() == "true"
-    )
-    app.config["MAIL_USERNAME"] = (
-        os.getenv("MAIL_USERNAME")
-        or os.getenv("EMAIL_USER")
-        or app.config.get("MAIL_USERNAME", "info@fitcoregym.com")
-    )
-    app.config["MAIL_PASSWORD"] = (
-        os.getenv("MAIL_PASSWORD")
-        or os.getenv("EMAIL_PASS")
-        or app.config.get("MAIL_PASSWORD", "")
-    )
+    app.config["MAIL_USE_TLS"] = os.getenv("MAIL_USE_TLS", str(app.config.get("MAIL_USE_TLS", True))).lower() == "true"
+    app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME") or os.getenv("EMAIL_USER") or ""
+    app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD") or os.getenv("EMAIL_PASS") or ""
     app.config["MAIL_DEFAULT_SENDER"] = app.config["MAIL_USERNAME"]
 
 
@@ -48,8 +35,8 @@ configure_mail_from_environment()
 
 
 def email_configured():
-    username = app.config["MAIL_USERNAME"]
-    password = app.config["MAIL_PASSWORD"]
+    username = app.config.get("MAIL_USERNAME", "")
+    password = app.config.get("MAIL_PASSWORD", "")
     return bool(username and password)
 
 
@@ -76,7 +63,6 @@ def save_submission_locally(data):
 
 @app.route("/contact", methods=["POST"])
 def contact():
-
     name = request.form.get("name")
     email = request.form.get("email")
     subject = request.form.get("subject")
@@ -119,11 +105,13 @@ Message:
         else:
             save_submission_locally(payload)
             flash("Message saved locally. Configure email settings to receive it by email.", "info")
-
-    except Exception as e:
-        print(e)
-        save_submission_locally(payload)
-        flash("Your message was saved locally. We will follow up soon.", "warning")
+    except Exception as exc:
+        print(exc)
+        if email_configured():
+            flash("We could not send your message right now. Please try again later.", "warning")
+        else:
+            save_submission_locally(payload)
+            flash("Your message was saved locally. We will follow up soon.", "warning")
 
     return redirect("/")
 

@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 
 from dotenv import load_dotenv
-from flask import Flask, flash, redirect, render_template, request
+from flask import Flask, flash, redirect, render_template, request, send_from_directory
 from flask_mail import Mail, Message
 
 project_root = os.path.dirname(os.path.abspath(__file__))
@@ -51,14 +51,22 @@ def trainers():
 
 
 def save_submission_locally(data):
-    file_path = os.getenv("CONTACT_SUBMISSIONS_FILE", "contact_submissions.jsonl")
+    file_path = os.getenv("CONTACT_SUBMISSIONS_FILE", os.path.join(project_root, "contact_submissions.jsonl"))
     payload = {
         "timestamp": datetime.utcnow().isoformat() + "Z",
         **data,
     }
 
-    with open(file_path, "a", encoding="utf-8") as handle:
-        handle.write(json.dumps(payload) + "\n")
+    try:
+        directory = os.path.dirname(file_path)
+        if directory:
+            os.makedirs(directory, exist_ok=True)
+        with open(file_path, "a", encoding="utf-8") as handle:
+            handle.write(json.dumps(payload) + "\n")
+        return True
+    except OSError as exc:
+        print(f"Could not save contact submission locally: {exc}")
+        return False
 
 
 @app.route("/contact", methods=["POST"])
@@ -68,7 +76,6 @@ def contact():
     subject = request.form.get("subject")
     phone = request.form.get("phone")
     message = request.form.get("message")
-    recipient = os.getenv("EMAIL_TO") or app.config["MAIL_USERNAME"]
 
     configure_mail_from_environment()
 
@@ -79,6 +86,17 @@ def contact():
         "subject": subject,
         "message": message,
     }
+
+    if not email_configured():
+        save_submission_locally(payload)
+        flash("Message saved locally. Configure email settings to receive it by email.", "info")
+        return redirect("/")
+
+    recipient = os.getenv("EMAIL_TO") or app.config.get("MAIL_USERNAME") or ""
+    if not recipient:
+        save_submission_locally(payload)
+        flash("Message saved locally. Configure email settings to receive it by email.", "info")
+        return redirect("/")
 
     msg = Message(
         subject=f"FitCore Contact: {subject}",
@@ -99,21 +117,19 @@ Message:
 """
 
     try:
-        if email_configured():
-            mail.send(msg)
-            flash("Message sent successfully!", "success")
-        else:
-            save_submission_locally(payload)
-            flash("Message saved locally. Configure email settings to receive it by email.", "info")
+        mail.send(msg)
+        flash("Message sent successfully!", "success")
     except Exception as exc:
         print(exc)
-        if email_configured():
-            flash("We could not send your message right now. Please try again later.", "warning")
-        else:
-            save_submission_locally(payload)
-            flash("Your message was saved locally. We will follow up soon.", "warning")
+        save_submission_locally(payload)
+        flash("Your message was saved locally. We will follow up soon.", "warning")
 
     return redirect("/")
+
+
+@app.route("/favicon.ico")
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, "static", "images", "logo"), "favicon.png", mimetype="image/png")
 
 
 if __name__ == "__main__":

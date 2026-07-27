@@ -2,6 +2,8 @@ import json
 import os
 from datetime import datetime
 
+import traceback
+
 from dotenv import load_dotenv
 from flask import Flask, flash, redirect, render_template, request, send_from_directory
 from flask_mail import Mail, Message
@@ -19,7 +21,7 @@ app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME") or os.getenv("EMAIL_USE
 app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD") or os.getenv("EMAIL_PASS") or ""
 app.config["MAIL_DEFAULT_SENDER"] = app.config["MAIL_USERNAME"]
 
-mail = Mail(app)
+mail = Mail()
 
 
 def configure_mail_from_environment():
@@ -29,6 +31,7 @@ def configure_mail_from_environment():
     app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME") or os.getenv("EMAIL_USER") or ""
     app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD") or os.getenv("EMAIL_PASS") or ""
     app.config["MAIL_DEFAULT_SENDER"] = app.config["MAIL_USERNAME"]
+    mail.init_app(app)
 
 
 configure_mail_from_environment()
@@ -128,7 +131,8 @@ Message:
         mail.send(msg)
         flash("Message sent successfully!", "success")
     except (Exception, SystemExit) as exc:
-        print(exc)
+        print(f"Contact form email send failed: {exc}")
+        traceback.print_exc()
         save_submission_locally(payload)
         flash("Your message was saved locally. We will follow up soon.", "warning")
 

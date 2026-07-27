@@ -4,9 +4,9 @@ from datetime import datetime
 
 import traceback
 
+import resend
 from dotenv import load_dotenv
 from flask import Flask, flash, redirect, render_template, request, send_from_directory
-from flask_mail import Mail, Message
 
 project_root = os.path.dirname(os.path.abspath(__file__))
 load_dotenv(os.path.join(project_root, ".env"))
@@ -14,37 +14,77 @@ load_dotenv(os.path.join(project_root, ".env"))
 app = Flask(__name__)
 app.secret_key = "fitcore_secret_key"
 
-app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER", "smtp.gmail.com")
-app.config["MAIL_PORT"] = int(os.getenv("MAIL_PORT", 587))
-app.config["MAIL_USE_TLS"] = os.getenv("MAIL_USE_TLS", "True").lower() == "true"
-app.config["MAIL_USE_SSL"] = os.getenv("MAIL_USE_SSL", "False").lower() == "true"
-app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME") or os.getenv("EMAIL_USER") or ""
-app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD") or os.getenv("EMAIL_PASS") or ""
-app.config["MAIL_DEFAULT_SENDER"] = app.config["MAIL_USERNAME"]
-app.config["MAIL_TIMEOUT"] = int(os.getenv("MAIL_TIMEOUT", "5"))
 
-mail = Mail()
+def configure_resend_from_environment():
+    resend.api_key = os.getenv("RESEND_API_KEY", "")
 
 
-def configure_mail_from_environment():
-    app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER", app.config.get("MAIL_SERVER", "smtp.gmail.com"))
-    app.config["MAIL_PORT"] = int(os.getenv("MAIL_PORT", app.config.get("MAIL_PORT", 587)))
-    app.config["MAIL_USE_TLS"] = os.getenv("MAIL_USE_TLS", str(app.config.get("MAIL_USE_TLS", True))).lower() == "true"
-    app.config["MAIL_USE_SSL"] = os.getenv("MAIL_USE_SSL", str(app.config.get("MAIL_USE_SSL", False))).lower() == "true"
-    app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME") or os.getenv("EMAIL_USER") or ""
-    app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD") or os.getenv("EMAIL_PASS") or ""
-    app.config["MAIL_DEFAULT_SENDER"] = app.config["MAIL_USERNAME"]
-    app.config["MAIL_TIMEOUT"] = int(os.getenv("MAIL_TIMEOUT", app.config.get("MAIL_TIMEOUT", 5)))
-    mail.init_app(app)
+def get_resend_from_address():
+    return (
+        os.getenv("RESEND_FROM")
+        or os.getenv("EMAIL_FROM")
+        or os.getenv("MAIL_USERNAME")
+        or os.getenv("EMAIL_USER")
+        or ""
+    )
 
 
-configure_mail_from_environment()
+def get_resend_from_display():
+    address = get_resend_from_address()
+    if not address:
+        return ""
+    if "<" in address and ">" in address:
+        return address
+    sender_name = os.getenv("RESEND_FROM_NAME", "FitCore Gym")
+    return f"{sender_name} <{address}>"
+
+
+configure_resend_from_environment()
 
 
 def email_configured():
-    username = app.config.get("MAIL_USERNAME", "")
-    password = app.config.get("MAIL_PASSWORD", "")
-    return bool(username and password)
+    return bool(os.getenv("RESEND_API_KEY") and get_resend_from_address())
+
+
+def send_contact_email(name, email, phone, subject, message, recipient):
+    body = f"""New Contact Form Submission
+
+Name: {name}
+Email: {email}
+Phone: {phone or 'Not provided'}
+Subject: {subject}
+
+Message:
+{message}
+"""
+    html_body = f"""<p><strong>New Contact Form Submission</strong></p>
+<ul>
+  <li><strong>Name:</strong> {name}</li>
+  <li><strong>Email:</strong> {email}</li>
+  <li><strong>Phone:</strong> {phone or 'Not provided'}</li>
+  <li><strong>Subject:</strong> {subject}</li>
+</ul>
+<p><strong>Message:</strong></p>
+<p>{message.replace(chr(10), '<br>')}</p>"""
+
+    params: resend.Emails.SendParams = {
+        "from": get_resend_from_display(),
+        "to": [recipient],
+        "reply_to": email,
+        "subject": f"FitCore Contact: {subject}",
+        "text": body,
+        "html": html_body,
+    }
+
+    print(
+        "Attempting Resend send",
+        {
+            "from": get_resend_from_display(),
+            "recipient": recipient,
+            "reply_to": email,
+        },
+    )
+    return resend.Emails.send(params)
 
 
 @app.route("/")
@@ -93,7 +133,7 @@ def contact():
         phone = request.form.get("phone")
         message = request.form.get("message")
 
-        configure_mail_from_environment()
+        configure_resend_from_environment()
 
         payload = {
             "name": name,
@@ -108,31 +148,13 @@ def contact():
             flash("Message saved locally. Configure email settings to receive it by email.", "info")
             return redirect("/")
 
-        recipient = os.getenv("EMAIL_TO") or app.config.get("MAIL_USERNAME") or ""
+        recipient = os.getenv("EMAIL_TO") or get_resend_from_address()
         if not recipient:
             save_submission_locally(payload)
             flash("Message saved locally. Configure email settings to receive it by email.", "info")
             return redirect("/")
 
-        msg = Message(
-            subject=f"FitCore Contact: {subject}",
-            sender=app.config["MAIL_USERNAME"],
-            recipients=[recipient],
-        )
-
-        msg.body = f"""
-New Contact Form Submission
-
-Name: {name}
-Email: {email}
-Phone: {phone or 'Not provided'}
-Subject: {subject}
-
-Message:
-{message}
-"""
-
-        mail.send(msg)
+        send_contact_email(name, email, phone, subject, message, recipient)
         flash("Message sent successfully!", "success")
     except (Exception, SystemExit) as exc:
         print(f"Contact form email send failed: {exc}")

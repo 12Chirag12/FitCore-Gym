@@ -2,7 +2,6 @@ import importlib
 import os
 import tempfile
 import unittest
-from pathlib import Path
 from unittest.mock import patch
 
 import app as app_module
@@ -13,17 +12,19 @@ class ContactFlowTests(unittest.TestCase):
     def setUp(self):
         flask_app.config.update(TESTING=True)
         self.client = flask_app.test_client()
-        self.original_email_user = os.environ.get("EMAIL_USER")
-        self.original_email_pass = os.environ.get("EMAIL_PASS")
+        self.original_resend_api_key = os.environ.get("RESEND_API_KEY")
+        self.original_resend_from = os.environ.get("RESEND_FROM")
+        self.original_email_from = os.environ.get("EMAIL_FROM")
         self.original_email_to = os.environ.get("EMAIL_TO")
         self.original_mail_username = os.environ.get("MAIL_USERNAME")
-        self.original_mail_password = os.environ.get("MAIL_PASSWORD")
+        self.original_email_user = os.environ.get("EMAIL_USER")
 
-        os.environ.pop("EMAIL_USER", None)
-        os.environ.pop("EMAIL_PASS", None)
+        os.environ.pop("RESEND_API_KEY", None)
+        os.environ.pop("RESEND_FROM", None)
+        os.environ.pop("EMAIL_FROM", None)
         os.environ.pop("EMAIL_TO", None)
         os.environ.pop("MAIL_USERNAME", None)
-        os.environ.pop("MAIL_PASSWORD", None)
+        os.environ.pop("EMAIL_USER", None)
 
         self.temp_dir = tempfile.mkdtemp(dir=os.getcwd())
         self.original_upload_dir = os.environ.get("CONTACT_SUBMISSIONS_FILE")
@@ -33,30 +34,20 @@ class ContactFlowTests(unittest.TestCase):
             os.remove(os.environ["CONTACT_SUBMISSIONS_FILE"])
 
     def tearDown(self):
-        if self.original_email_user is None:
-            os.environ.pop("EMAIL_USER", None)
-        else:
-            os.environ["EMAIL_USER"] = self.original_email_user
+        env_pairs = [
+            ("RESEND_API_KEY", self.original_resend_api_key),
+            ("RESEND_FROM", self.original_resend_from),
+            ("EMAIL_FROM", self.original_email_from),
+            ("EMAIL_TO", self.original_email_to),
+            ("MAIL_USERNAME", self.original_mail_username),
+            ("EMAIL_USER", self.original_email_user),
+        ]
 
-        if self.original_email_pass is None:
-            os.environ.pop("EMAIL_PASS", None)
-        else:
-            os.environ["EMAIL_PASS"] = self.original_email_pass
-
-        if self.original_email_to is None:
-            os.environ.pop("EMAIL_TO", None)
-        else:
-            os.environ["EMAIL_TO"] = self.original_email_to
-
-        if self.original_mail_username is None:
-            os.environ.pop("MAIL_USERNAME", None)
-        else:
-            os.environ["MAIL_USERNAME"] = self.original_mail_username
-
-        if self.original_mail_password is None:
-            os.environ.pop("MAIL_PASSWORD", None)
-        else:
-            os.environ["MAIL_PASSWORD"] = self.original_mail_password
+        for key, original_value in env_pairs:
+            if original_value is None:
+                os.environ.pop(key, None)
+            else:
+                os.environ[key] = original_value
 
         if self.original_upload_dir is None:
             os.environ.pop("CONTACT_SUBMISSIONS_FILE", None)
@@ -91,11 +82,11 @@ class ContactFlowTests(unittest.TestCase):
 
         self.assertIn("asha@example.com", content)
 
-    def test_contact_form_uses_render_email_environment_variables(self):
-        os.environ["MAIL_USERNAME"] = "info@fitcoregym.com"
-        os.environ["MAIL_PASSWORD"] = "secret-password"
+    def test_contact_form_sends_email_with_resend(self):
+        os.environ["RESEND_API_KEY"] = "re_test_key"
+        os.environ["RESEND_FROM"] = "info@fitcoregym.com"
 
-        with patch.object(app_module.mail, "send", return_value=None) as mock_send:
+        with patch.object(app_module.resend.Emails, "send", return_value={"id": "email_123"}) as mock_send:
             response = self.client.post(
                 "/contact",
                 data={
@@ -112,11 +103,11 @@ class ContactFlowTests(unittest.TestCase):
         self.assertIn("sent successfully", response.get_data(as_text=True).lower())
         mock_send.assert_called_once()
 
-    def test_contact_form_falls_back_to_local_storage_when_mail_send_exits(self):
-        os.environ["MAIL_USERNAME"] = "info@fitcoregym.com"
-        os.environ["MAIL_PASSWORD"] = "secret-password"
+    def test_contact_form_falls_back_to_local_storage_when_resend_send_fails(self):
+        os.environ["RESEND_API_KEY"] = "re_test_key"
+        os.environ["RESEND_FROM"] = "info@fitcoregym.com"
 
-        with patch.object(app_module.mail, "send", side_effect=SystemExit(1)):
+        with patch.object(app_module.resend.Emails, "send", side_effect=SystemExit(1)):
             response = self.client.post(
                 "/contact",
                 data={
@@ -145,14 +136,25 @@ class ContactFlowTests(unittest.TestCase):
         temp_dir = tempfile.mkdtemp(dir=os.getcwd())
         try:
             os.chdir(temp_dir)
+            os.environ.pop("RESEND_API_KEY", None)
+            os.environ.pop("RESEND_FROM", None)
+            os.environ.pop("EMAIL_FROM", None)
             os.environ.pop("MAIL_USERNAME", None)
-            os.environ.pop("MAIL_PASSWORD", None)
             os.environ.pop("EMAIL_USER", None)
-            os.environ.pop("EMAIL_PASS", None)
 
             reloaded_app = importlib.reload(app_module)
+            expected_from = (
+                os.getenv("RESEND_FROM")
+                or os.getenv("EMAIL_FROM")
+                or os.getenv("EMAIL_USER")
+                or os.getenv("MAIL_USERNAME")
+            )
+
+            if not os.getenv("RESEND_API_KEY") or not expected_from:
+                self.skipTest("Set RESEND_API_KEY and a sender address in .env to run this test.")
+
             self.assertTrue(reloaded_app.email_configured())
-            self.assertEqual(reloaded_app.app.config["MAIL_USERNAME"], os.getenv("EMAIL_USER") or os.getenv("MAIL_USERNAME"))
+            self.assertEqual(reloaded_app.get_resend_from_address(), expected_from)
         finally:
             os.chdir(original_cwd)
             for file_name in os.listdir(temp_dir):

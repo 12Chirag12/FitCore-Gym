@@ -17,9 +17,11 @@ app.secret_key = "fitcore_secret_key"
 app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER", "smtp.gmail.com")
 app.config["MAIL_PORT"] = int(os.getenv("MAIL_PORT", 587))
 app.config["MAIL_USE_TLS"] = os.getenv("MAIL_USE_TLS", "True").lower() == "true"
+app.config["MAIL_USE_SSL"] = os.getenv("MAIL_USE_SSL", "False").lower() == "true"
 app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME") or os.getenv("EMAIL_USER") or ""
 app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD") or os.getenv("EMAIL_PASS") or ""
 app.config["MAIL_DEFAULT_SENDER"] = app.config["MAIL_USERNAME"]
+app.config["MAIL_TIMEOUT"] = int(os.getenv("MAIL_TIMEOUT", "5"))
 
 mail = Mail()
 
@@ -28,9 +30,11 @@ def configure_mail_from_environment():
     app.config["MAIL_SERVER"] = os.getenv("MAIL_SERVER", app.config.get("MAIL_SERVER", "smtp.gmail.com"))
     app.config["MAIL_PORT"] = int(os.getenv("MAIL_PORT", app.config.get("MAIL_PORT", 587)))
     app.config["MAIL_USE_TLS"] = os.getenv("MAIL_USE_TLS", str(app.config.get("MAIL_USE_TLS", True))).lower() == "true"
+    app.config["MAIL_USE_SSL"] = os.getenv("MAIL_USE_SSL", str(app.config.get("MAIL_USE_SSL", False))).lower() == "true"
     app.config["MAIL_USERNAME"] = os.getenv("MAIL_USERNAME") or os.getenv("EMAIL_USER") or ""
     app.config["MAIL_PASSWORD"] = os.getenv("MAIL_PASSWORD") or os.getenv("EMAIL_PASS") or ""
     app.config["MAIL_DEFAULT_SENDER"] = app.config["MAIL_USERNAME"]
+    app.config["MAIL_TIMEOUT"] = int(os.getenv("MAIL_TIMEOUT", app.config.get("MAIL_TIMEOUT", 5)))
     mail.init_app(app)
 
 

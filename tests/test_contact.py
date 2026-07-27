@@ -112,6 +112,34 @@ class ContactFlowTests(unittest.TestCase):
         self.assertIn("sent successfully", response.get_data(as_text=True).lower())
         mock_send.assert_called_once()
 
+    def test_contact_form_falls_back_to_local_storage_when_mail_send_exits(self):
+        os.environ["MAIL_USERNAME"] = "info@fitcoregym.com"
+        os.environ["MAIL_PASSWORD"] = "secret-password"
+
+        with patch.object(app_module.mail, "send", side_effect=SystemExit(1)):
+            response = self.client.post(
+                "/contact",
+                data={
+                    "name": "Asha",
+                    "email": "asha@example.com",
+                    "subject": "Trial Request",
+                    "phone": "9876543210",
+                    "message": "I want to book a free trial.",
+                },
+                follow_redirects=True,
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("saved locally", response.get_data(as_text=True).lower())
+
+        submissions_file = os.environ["CONTACT_SUBMISSIONS_FILE"]
+        self.assertTrue(os.path.exists(submissions_file))
+
+        with open(submissions_file, "r", encoding="utf-8") as handle:
+            content = handle.read()
+
+        self.assertIn("asha@example.com", content)
+
     def test_app_loads_dotenv_from_project_root_even_when_cwd_changes(self):
         original_cwd = os.getcwd()
         temp_dir = tempfile.mkdtemp(dir=os.getcwd())

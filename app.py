@@ -127,7 +127,7 @@ Message:
 
         mail.send(msg)
         flash("Message sent successfully!", "success")
-    except Exception as exc:
+    except (Exception, SystemExit) as exc:
         print(exc)
         save_submission_locally(payload)
         flash("Your message was saved locally. We will follow up soon.", "warning")
